@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from openai import OpenAI
 from pypdf import PdfReader
 import gradio as gr
-from prompts import system_prompt, evaluator_system_prompt
+from src.prompts import system_prompt, evaluator_system_prompt
 from langsmith import Client, traceable
 from sklearn.metrics.pairwise import cosine_similarity
 import traceback
