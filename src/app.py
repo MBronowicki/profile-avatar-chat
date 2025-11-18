@@ -26,8 +26,6 @@ class Config:
         # Initialize LangSmith
         self.langsmith_client = Client(api_key=self.langsmith_api_key)
 
-        # print(f"OpenAI Api Key: {self.openai_api_key[:7]}")
-
 class FileReader:
     def __init__(self):
         self.linkedin_profile = ""
@@ -40,7 +38,6 @@ class FileReader:
         except Exception:
             # If file missing, keep empty
             self.linkedin_profile = ""
-        # NOT IMPLEMENTED ---> CREATE FILE AND CHANGE IN THE APP WHERE APPLICABLE
         try:
             with open("../me/additional_info.txt", "r", encoding="utf-8") as f:
                 self.additional_info = f.read()
@@ -125,11 +122,6 @@ class MyProfileAvatarChat(Config, FileReader):
     
     @traceable(run_type="llm", name="RerunRejectedAnswer")
     def rerun(self, reply, message, history, feedback, **kwargs):
-        # updated_system_prompt = self.system_prompt + "\n\n## Previous answer rejected\n \
-        # You just tried to reply, but the quality control rejected your reply\n"
-        # updated_system_prompt += f"## Your attempted answer:\n{reply}\n\n"
-        # updated_system_prompt += f"## Reason for rejection:\n{feedback}\n\n"
-
         updated_system_prompt = (
             self.system_prompt 
             + "\n\n## Previous answer rejected\n"
@@ -137,8 +129,6 @@ class MyProfileAvatarChat(Config, FileReader):
             + f"## Your attempted answer:\n{reply}\n\n"
             + f"## Reason for rejection:\n{feedback}\n\n"
         )
-
-
         messages = [{"role": "system", "content": updated_system_prompt}] + history + \
                     [{"role": "user", "content": message}]
         try:
@@ -160,7 +150,6 @@ class MyProfileAvatarChat(Config, FileReader):
         Returns:
             reply string
         """
-
         # Cache exact-match short-circuit
         if message in (qa["question"] for qa in self.qa_cache):
             # exact match
@@ -184,7 +173,6 @@ class MyProfileAvatarChat(Config, FileReader):
             )
             messages = [{"role": "system", "content": self.system_prompt},
                         {"role": "user", "content": refine_prompt}]
-            
             try:
                 response = self.openai.chat.completions.create(
                     model="gpt-4o-mini",
@@ -193,8 +181,7 @@ class MyProfileAvatarChat(Config, FileReader):
                 reply = response.choices[0].message.content
             except Exception as e:
                 print(f"Error calling OpenAI for refinement: {e}")
-                reply = similar["answer"]
-        
+                reply = similar["answer"]  
         else:
             # Build token-efficent context (sliding window)
             temp_history = history + [{"role": "user", "content": message}]
@@ -209,7 +196,6 @@ class MyProfileAvatarChat(Config, FileReader):
                 reply = response.choices[0].message.content
             except Exception as e:
                 print(f"Error calling OpenAI: {e}")
-
         # Evaluate the reply
         try:
             evaluation = self.evaluate(reply, message, history)
