@@ -9,7 +9,7 @@ pinned: false
 
 # Profile Avatar Chat App
 
-This repository contains the code for a robust AI-powered chat service that acts as a personal profile avatar. The chat responds based on my LinkedIn profile, professional summary, current situation, recommendations, and other additional information.
+This repository contains the code for a robust AI-powered chat service that acts as a personal profile avatar. The chat responds based on my LinkedIn profile, professional and other additional information.
 
 Key features implemented for robustness:
 
