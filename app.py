@@ -8,7 +8,7 @@ from langsmith import traceable
 from sklearn.metrics.pairwise import cosine_similarity
 
 from src.prompts import system_prompt, evaluator_system_prompt
-from src.name_extractor import extract_name_gliner
+# from src.name_extractor import extract_name_gliner
 from src.models import Evaluation, CacheEntry
 from src.config import Config
 from src.utils import FileReader
@@ -23,10 +23,10 @@ class MyProfileAvatarChat(Config, FileReader):
 
         # 1. Try to load from env
         self.name = os.getenv("PROFIL_NAME")
-        if not self.name:
-            name = extract_name_gliner(self.linkedin_profile)
-            self.name = name["person"][0]
-            print(f"Name found on Linkedin profile: {self.name}")
+        # if not self.name:
+        #     name = extract_name_gliner(self.linkedin_profile)
+        #     self.name = name["person"][0]
+        #     print(f"Name found on Linkedin profile: {self.name}")
 
         self.openai = AsyncOpenAI(api_key=self.openai_api_key)
         # gemini (evaluator) uses google_api_key via OpenAI wrapper
