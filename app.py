@@ -215,5 +215,5 @@ class MyProfileAvatarChat(Config, FileReader):
 if __name__ == "__main__":
 
     my_profile = MyProfileAvatarChat()
-    gr.ChatInterface(my_profile.chat_traced,type="messages").launch()
+    gr.ChatInterface(my_profile.chat_traced).launch()
 
