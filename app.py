@@ -214,6 +214,8 @@ class MyProfileAvatarChat(Config, FileReader):
         
 if __name__ == "__main__":
 
+    print("HF rebuild test – App.py loaded successfully.")
+
     my_profile = MyProfileAvatarChat()
     gr.ChatInterface(my_profile.chat_traced,type="messages").launch()
 
