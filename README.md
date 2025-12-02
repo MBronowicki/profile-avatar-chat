@@ -2,7 +2,7 @@
 title: Your App Name
 emoji: 🤖
 sdk: gradio
-app_file: src/app.py
+app_file: app.py
 pinned: false
 ---
 
