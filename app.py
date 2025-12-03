@@ -143,8 +143,8 @@ class MyProfileAvatarChat(Config, FileReader):
             print(f"Reusing past answer (similarity={sim_score:.2%})")
             refine_prompt = (
                 f"The user previously asked a similar question:\n"
-                + f"Old question: {similar["question"]}\n"
-                + f"Old answer: {similar["answer"]}\n\n"
+                + f"Old question: {similar['question']}\n"
+                + f"Old answer: {similar['answer']}\n\n"
                 + f"Now user asks: {message}\n\n"
                 + f"Please update or refine the old answer to match the new question."
             )
