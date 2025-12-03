@@ -215,10 +215,19 @@ class MyProfileAvatarChat(Config, FileReader):
 if __name__ == "__main__":
 
     my_profile = MyProfileAvatarChat()
-    demo = gr.ChatInterface(my_profile.chat_traced)
+    with gr.Blocks() as demo:
+       # Per-user chat history state
+       state = gr.State([])
 
-    demo.queue(max_size=10).launch( # allows up to 10 tasks in queue
-    server_name="0.0.0.0",
-    server_port=7860,
-    share=False)
+       # Chat interface
+       chat = gr.ChatInterface(
+           my_profile.chat_traced
+       )
+
+    demo.queue(max_size=10).launch(
+        server_name="0.0.0.0",
+        show_error=7860,
+        share=False
+    )
+
 
