@@ -143,8 +143,8 @@ class MyProfileAvatarChat(Config, FileReader):
             print(f"Reusing past answer (similarity={sim_score:.2%})")
             refine_prompt = (
                 f"The user previously asked a similar question:\n"
-                + f"Old question: {similar['question']}\n"
-                + f"Old answer: {similar['answer']}\n\n"
+                + f"Old question: {similar["question"]}\n"
+                + f"Old answer: {similar["answer"]}\n\n"
                 + f"Now user asks: {message}\n\n"
                 + f"Please update or refine the old answer to match the new question."
             )
@@ -192,11 +192,11 @@ class MyProfileAvatarChat(Config, FileReader):
             traceback.print_exc()
             emb = None
         
-        self.qa_cache.append(CacheEntry(
-            question=message,
-            answer=reply,
-            embedding=emb.tolist() if hasattr(emb, "tolist") else emb
-        ))
+        self.qa_cache.append({
+            "question":message,
+            "answer":reply,
+            "embedding":emb
+        })
 
         return reply
     
@@ -215,5 +215,10 @@ class MyProfileAvatarChat(Config, FileReader):
 if __name__ == "__main__":
 
     my_profile = MyProfileAvatarChat()
-    gr.ChatInterface(my_profile.chat_traced).launch()
+    demo = gr.ChatInterface(my_profile.chat_traced)
+
+    demo.queue(max_size=10).launch( # allows up to 10 tasks in queue
+    server_name="0.0.0.0",
+    server_port=7860,
+    share=False)
 
